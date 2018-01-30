@@ -1,0 +1,22 @@
+{
+  "name": "distributed-barrier",
+  "version": "0.0.1",
+  "description": "A simple synchronization helper that allows a set of distributed hosts to all wait for each other using netcat",
+  "main": "bin/distributed-barrier.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+      "distributed-barrier": "bin/distributed-barrier.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0x530302/distributed-barrier.git"
+  },
+  "author": "Dominik Meißner <dominik.meissner@uni-ulm.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/0x530302/distributed-barrier/issues"
+  },
+  "homepage": "https://github.com/0x530302/distributed-barrier#readme"
+}
