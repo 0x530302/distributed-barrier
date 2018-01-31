@@ -8,26 +8,33 @@ if (process.argv.length < 3) {
 
 const port = process.env.PORT || 8413;
 const waitSet = new Set(process.argv.slice(2));
-const connections = [];
+const connections = new Map();
 
 const checkSet = () => {
     if (waitSet.size === 0) {
-        connections.forEach(connection => {
+        for (let connection of connections.keys()) {
+            connections.delete(connection);
             connection.end('Reached barrier!\n');
-        });
+        }
         server.close();
     }
 };
 
 const server = net.createServer(socket => {
     socket.on('data', data => {
-        const uuid = data.toString().trim();
-        if (waitSet.has(uuid)) {
-            waitSet.delete(uuid);
-            connections.push(socket);
+        const token = data.toString().trim();
+        if (waitSet.has(token)) {
+            waitSet.delete(token);
+            connections.set(socket, token);
             checkSet();
         } else {
-            socket.end('Invalid uuid!\n');
+            socket.end('Invalid token!\n');
+        }
+    });
+    socket.on('end', () => {
+        if (connections.has(socket)) {
+            waitSet.add(connections.get(socket));
+            connections.delete(socket);
         }
     });
 });
