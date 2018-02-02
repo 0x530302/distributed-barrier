@@ -24,6 +24,7 @@ const server = net.createServer(socket => {
     socket.on('data', data => {
         const token = data.toString().trim();
         if (waitSet.has(token)) {
+            console.log(`[join] ${token}`);
             waitSet.delete(token);
             connections.set(socket, token);
             checkSet();
@@ -33,7 +34,9 @@ const server = net.createServer(socket => {
     });
     socket.on('end', () => {
         if (connections.has(socket)) {
-            waitSet.add(connections.get(socket));
+            const token = connections.get(socket);
+            console.log(`[leave] ${token}`);
+            waitSet.add(token);
             connections.delete(socket);
         }
     });
