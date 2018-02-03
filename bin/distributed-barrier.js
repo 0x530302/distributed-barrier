@@ -22,8 +22,8 @@ const checkSet = () => {
 
 const server = net.createServer(socket => {
     console.log(`[debug] ${socket.remoteAddress}:${socket.remotePort}`);
-    socket.on('data', data => {
-        const token = data.toString().trim();
+    socket.once('data', data => {
+        const token = data.toString().split('\n', 1)[0].trim();
         if (waitSet.has(token)) {
             console.log(`[join] ${token}`);
             waitSet.delete(token);
