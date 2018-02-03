@@ -53,6 +53,8 @@ const server = net.createServer(socket => {
         });
     } else {
         socket.on('data', data => {
+            console.log(`[debug] ${data.toString()}`);
+
             const token = data.toString().trim();
             if (waitSet.has(token)) {
                 console.log(`[join] ${token}`);
