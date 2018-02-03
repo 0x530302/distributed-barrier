@@ -27,6 +27,8 @@ const checkSet = () => {
 };
 
 const server = net.createServer(socket => {
+    console.log(`[debug] ${socket.remoteAddress}:${socket.remotePort}`);
+
     if (anonymousMode) {
         connections.set(socket, awaiting);
         awaiting -= 1;
