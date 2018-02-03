@@ -40,6 +40,15 @@ const server = net.createServer(socket => {
             }
             server.close();
         }
+
+        socket.on('end', () => {
+            if (connections.has(socket)) {
+                const token = connections.get(socket);
+                console.log(`[leave] awaiting ${awaiting}`);
+                connections.delete(socket);
+                awaiting += 1;
+            }
+        });
     } else {
         socket.on('data', data => {
             const token = data.toString().trim();
