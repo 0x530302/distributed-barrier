@@ -15,6 +15,7 @@ const checkSet = () => {
         for (let connection of connections.keys()) {
             connections.delete(connection);
             connection.end('Reached barrier!\n');
+            connection.destroy();
         }
         server.close();
     }
