@@ -16,7 +16,7 @@ const checkSet = () => {
             for (let connection of connections.keys()) {
                 connections.delete(connection);
                 connection.end('Reached barrier!\n');
-                connection.destroy();
+                setTimeout(() => connection.destroy(), 500);
             }
             server.close();
         }
@@ -25,6 +25,8 @@ const checkSet = () => {
 
 const server = net.createServer(socket => {
     console.log(`[debug] ${socket.remoteAddress}:${socket.remotePort}`);
+    socket.setNoDelay();
+
     socket.once('data', data => {
         const token = data.toString().split('\n', 1)[0].trim();
         if (waitSet.has(token)) {
