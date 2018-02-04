@@ -11,14 +11,16 @@ const waitSet = new Set(process.argv.slice(2));
 const connections = new Map();
 
 const checkSet = () => {
-    if (waitSet.size === 0) {
-        for (let connection of connections.keys()) {
-            connections.delete(connection);
-            connection.end('Reached barrier!\n');
-            connection.destroy();
+    setTimeout(() => {
+        if (waitSet.size === 0) {
+            for (let connection of connections.keys()) {
+                connections.delete(connection);
+                connection.end('Reached barrier!\n');
+                connection.destroy();
+            }
+            server.close();
         }
-        server.close();
-    }
+    }, 1000);
 };
 
 const server = net.createServer(socket => {
